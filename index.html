@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="head">
+        <h1>To-Do-List</h1>
+    </div>
+    <div class="container">
+        <div id="newtask">
+            <input type="text" id="add" placeholder="Add Tasks">
+            <button id="addButton">Add</button>
+        </div>
+        <div id="newtask">
+            <input type="text" id="update" placeholder="Update Tasks">
+            <input type="number" id="updateIndex" placeholder="Task Index">
+            <button id="updateButton" >Update</button>
+        </div>
+        <div id="task">
+            <!-- <input type="text" placeholder="Delete Tasks"> -->
+            <button id="deleteButton">Delete</button>
+        </div>
+        <div id="task">
+            <!-- <input type="text" placeholder="Display Tasks"> -->
+            <button id="displayButton">Display</button>
+        </div>
+        <div id="tasks"></div>
+    </div>
+    <script>
+        
+let tasks = [];
+document.getElementById('addButton').addEventListener('click',() => {
+    const input = document.getElementById('add');
+    const task = input.value.trim();
+    if (task) {
+        tasks.push(task);
+        input.value = ''; // Clear input field
+        displayTasks(); // Update the task list display
+    } 
+    else {
+        alert('Please enter a task.');
+    }
+});
+
+// Function to update a task
+document.getElementById('updateButton').addEventListener('click',() => {
+    const updateInput = document.getElementById('update');
+    const updateIndex = parseInt(document.getElementById('updateIndex').value, 10);
+            const task = updateInput.value.trim();
+            if (task && !isNaN(updateIndex) && updateIndex >= 0 && updateIndex < tasks.length) {
+                tasks[updateIndex] = task;
+                updateInput.value = ''; // Clear input field
+                document.getElementById('updateIndex').value = '';
+        displayTasks(); // Update the task list display
+    } else {
+        alert('Task not found.');
+    }
+});
+
+// Function to delete a task
+document.getElementById('deleteButton').addEventListener('click',() => {
+    const taskToDelete = prompt('Enter the task to delete:');
+    const taskIndex = tasks.indexOf(taskToDelete);
+    if (taskIndex > -1) {
+        tasks.splice(taskIndex, 1); // Remove the task from the array
+        displayTasks(); // Update the task list display
+    } else {
+        alert('Task not found.');
+    }
+});
+
+// Function to display all tasks
+document.getElementById('displayButton').addEventListener('click',() => {
+    displayTasks(); // Show current tasks
+});
+
+// Function to display tasks on the page
+function displayTasks() {
+    const tasksContainer = document.getElementById('tasks');
+    tasksContainer.innerHTML = ''; // Clear existing tasks
+    tasks.forEach((task,index) => {
+        const taskElement = document.createElement('div');
+        taskElement.textContent = `${index}: ${task}`;
+        tasksContainer.appendChild(taskElement);
+    });
+}
+    </script>
+</body>
+</html>
